@@ -4,6 +4,7 @@ Selenium web bot to automate Flight Searching
 ## Imports
     pip install tkinter
     pip install selenium
+    pip install pyinstaller
     
 
 ## Executiion
@@ -14,4 +15,5 @@ Selenium web bot to automate Flight Searching
 5. Extract the zip into C:\Program Files (x86)
 6. Open into a codeeditor you like and enjoy!
 
-
+## Executable Script Generation
+pyinstaller.exe --onefile --windowed app.py 
