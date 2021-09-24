@@ -1,6 +1,11 @@
 # Python_Webbot
 Selenium web bot to automate Flight Searching
 
+## Imports
+    pip install tkinter
+    pip install selenium
+    
+
 ## Executiion
 1. Install Pip if not installed.
 2. pip install selenium
