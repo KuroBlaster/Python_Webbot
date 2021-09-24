@@ -7,7 +7,7 @@ import config as credentials
 PATH = "C:\Program Files (x86)\chromedriver.exe"
 
 
-def travelBrands_execute(departingFrom, arrivingTo, departingDay, departingMonth, arrivingDay, arrivingMonth, adult, child, infant, connections):
+def travelBrands_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, connections, singleOrRound, threeDays):
     driver = webdriver.Chrome(PATH)
     driver.get(credentials.TRAVELBRANDS['link'])
     #Close a tab: driver.close()
@@ -25,25 +25,38 @@ def travelBrands_execute(departingFrom, arrivingTo, departingDay, departingMonth
     agency_pass.send_keys(credentials.TRAVELBRANDS['pass'])
     agency_pass.send_keys(Keys.RETURN)
 
-    driver.get('https://res.intair.com/resa/cota/index.php?Login_Type=&B2B=5d501a5d-0755-410d-84f5-3f316fd341d6')
-
+    #driver.get('https://res.intair.com/resa/cota/index.php?Login_Type=&B2B=5d501a5d-0755-410d-84f5-3f316fd341d6')
+    driver.get("https://login.en.travelbrandsagent.com/redirecttosinglesignonsubscriber.ashx?subscriber=https://www.travelbrandsagent.com/sso/air/launch.asp&lang=EN&type=AIRCAD")
     #Single Way
-    oneWay = driver.find_element_by_id('OW')
-    oneWay.click()
+    if singleOrRound == 0:
+        driver.find_element_by_id('OW').click()
+        
     
     outbound_from = driver.find_element_by_id('OrigineAller')
     outbound_from.send_keys(departingFrom)
     outbound_to = driver.find_element_by_id('DestinationAller')
     outbound_to.send_keys(arrivingTo)
     departing_day = driver.find_element_by_id('JourAller')
-    departing_day.send_keys(departingDay)
-    departing_month = driver.find_element_by_xpath("//select[@name='MoisAller']/option[text()='" + departingMonth + "']")
+    departing_day.send_keys(departingFullDate.strftime("%d"))
+
+    departing_month = driver.find_element_by_xpath(
+        "//select[@name='MoisAller']/option[text()='" 
+        + departingFullDate.strftime("%B") 
+        + " " 
+        + departingFullDate.strftime("%Y") 
+        + "']")
+
     departing_month.click()
     
-    if not arrivingDay == "":
+    if not arrivingFullDate == "":
         arriving_day = driver.find_element_by_id('JourRetourAR')
-        arriving_day.send_keys(arrivingDay)
-        arriving_month = driver.find_element_by_xpath("//select[@name='MoisRetourAR']/option[text()='" + arrivingMonth + "']")
+        arriving_day.send_keys(arrivingFullDate.strftime("%d"))
+        arriving_month = driver.find_element_by_xpath(
+            "//select[@name='MoisRetourAR']/option[text()='" 
+            + arrivingFullDate.strftime("%B") 
+            + " "
+            + arrivingFullDate.strftime("%Y") 
+            + "']")
         arriving_month.click()
 
     total_adults = driver.find_element_by_xpath("//input[@name='PAXADL']")
@@ -61,10 +74,14 @@ def travelBrands_execute(departingFrom, arrivingTo, departingDay, departingMonth
     flight_connection = driver.find_element_by_xpath("//select[@name='MaxConn']/option[text()='" + connections + "']")
     flight_connection.click()
 
-    submit_button = driver.find_element_by_xpath('//*[(@id = "search-other")]//div//input')
-    submit_button.click()
+    if threeDays:
+        driver.find_element_by_id('PlusMoins3Jours1').click()
+    else:
+        driver.find_element_by_xpath('//*[(@id = "search-other")]//div//input').click()
+        
 
-def royalScenic_execute():
+
+def royalScenic_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, singleOrRound, threeDays):
     driver = webdriver.Chrome(PATH)
     driver.get(credentials.ROYALSCENIC['link'])
 
@@ -77,21 +94,52 @@ def royalScenic_execute():
     agency_pass.send_keys(Keys.RETURN)
 
     #Single Way
-    oneWay = driver.find_element_by_id('rbFlightOneWay')
-    oneWay.click()
+    if(int(singleOrRound) == 0):
+        driver.find_element_by_id('rbFlightOneWay').click()
+    else: #Round Trip
+        driver.find_element_by_id('rbFlightReturn').click()
+        arrivalDate = driver.find_element_by_id('departure-date-2')
+        arrivalDate.send_keys(arrivingFullDate.strftime('%m/%d/%Y')) #MMDDYYYY
 
     outbound_from = driver.find_element_by_id('departure-airport-1')
-    outbound_from.send_keys('Vancouver')
+    outbound_from.send_keys(departingFrom)
     time.sleep(0.5)
     outbound_from.send_keys(Keys.ARROW_DOWN)
     
     outbound_to = driver.find_element_by_id('arrival-airport-1')
-    outbound_to.send_keys('toronto')
+    outbound_to.send_keys(arrivingTo)
     time.sleep(0.5)
     outbound_to.send_keys(Keys.ARROW_DOWN)
 
     departureDate = driver.find_element_by_id('departure-date-1')
-    departureDate.send_keys('10/22/2021') #MMDDYYYY
+    departureDate.send_keys(departingFullDate.strftime('%m/%d/%Y')) #MMDDYYYY
 
-    totalAdults = driver.find_element_by_xpath("//select[@id='noofAdult']/option[text()='" + '2' + "']")
+    #PASSENGERS
+    totalAdults = driver.find_element_by_xpath("//select[@id='noofAdult']/option[text()='" + adult + "']")
     totalAdults.click()
+
+    if(int(child) >=1):
+        totalChildren = driver.find_element_by_xpath("//select[@id='noOfChildren']/option[text()='" + child + "']")
+        totalChildren.click()
+        time.sleep(0.1)
+        #Default Child age is assumed to be 7
+        for childCount in range(int(child)):
+            childId = "ChildAge" + str((childCount +1))
+            driver.find_element_by_xpath("//select[@id='" + childId + "']/option[text()='" + ' 7' + "']").click()
+
+    if(int(infant) >=1):
+        totalInfants = driver.find_element_by_xpath("//select[@id='noOfInfant']/option[text()='" + infant + "']")
+        totalInfants.click()    
+        #Default Child age is assumed to be 7
+        time.sleep(0.1)
+        for infantCount in range(int(infant)):
+            infantId = "InfantAge" + str((childCount +1))
+            driver.find_element_by_xpath("//select[@id='" + infantId + "']/option[text()='" + '< 2 (lap)' + "']").click()
+
+    submitButton = driver.find_element_by_id('btnSearchNow')
+    submitButton.click()
+    
+    #search 3 days
+    if threeDays: 
+        submit3days = driver.find_element_by_id('flexible-dates-search')
+        submit3days.click()
