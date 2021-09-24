@@ -79,8 +79,55 @@ def travelBrands_execute(departingFrom, arrivingTo, departingFullDate, arrivingF
     else:
         driver.find_element_by_xpath('//*[(@id = "search-other")]//div//input').click()
         
+def tripPro_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, singleOrRound):
+    
+    driver = webdriver.Chrome(PATH)
+    driver.get(credentials.TRIPPRO['link'])
 
+    agency_name = driver.find_element_by_id("username")
+    agency_name.send_keys(credentials.TRIPPRO['user'])
 
+    agency_pass = driver.find_element_by_id("password")
+    agency_pass.send_keys(credentials.TRIPPRO['pass'])
+    agency_pass.send_keys(Keys.RETURN)
+    
+    #Flight Button
+    driver.find_element_by_id('menu-items-Flights').click()
+
+    if int(singleOrRound) ==0:
+        driver.find_element_by_id('et_trip_type_0').click()
+    else:
+        driver.find_element_by_id('et_trip_type_1').click()
+        arrivalDate = driver.find_element_by_id('departure-date-2')
+        arrivalDate.send_keys(arrivingFullDate.strftime('%m/%d/%Y')) #MMDDYYYY
+
+    outbound_from = driver.find_element_by_id('origin')
+    outbound_from.send_keys(departingFrom)
+    time.sleep(1)
+    outbound_to = driver.find_element_by_id('destination')
+    outbound_to.send_keys(arrivingTo)
+    time.sleep(1)
+
+    departureDate = driver.find_element_by_id('fromDate')
+    departureDate.send_keys(departingFullDate.strftime('%m/%d/%Y')) #MMDDYYYY
+
+    #PASSENGERS
+    totalAdults = driver.find_element_by_id("adultCount")
+    totalAdults.send_keys(int(adult))
+
+    if(int(child) >=1):
+        totalChildren = driver.find_element_by_id("childCount")
+        totalChildren.send_keys(int(child))
+        
+    if(int(infant) >=1):
+        totalInfants = driver.find_element_by_id("infantCount")
+        totalInfants.send_keys(int(infant))  
+
+    submitButton = driver.find_element_by_id('searchFlightButton')
+    submitButton.click()
+    
+
+    
 def royalScenic_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, singleOrRound, threeDays):
     driver = webdriver.Chrome(PATH)
     driver.get(credentials.ROYALSCENIC['link'])

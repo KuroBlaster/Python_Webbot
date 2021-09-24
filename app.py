@@ -18,7 +18,8 @@ def search (threeDays = False):
             int(arrivingDay.get()))
     else:
         arrivingFullDate = ''
-
+    
+    '''
     travelBrands = threading.Thread(
         target = bot.travelBrands_execute, 
         args = (departingFrom.get(), 
@@ -35,7 +36,7 @@ def search (threeDays = False):
     travelBrands.start()
     
     #RoyalScenic
-    
+        
     royalScenic = threading.Thread(
                 target = bot.royalScenic_execute, 
                 args = (departingFrom.get(), 
@@ -49,12 +50,23 @@ def search (threeDays = False):
                 threeDays))
 
     royalScenic.start()
+    '''
     
+    #departingFrom.get(), arrivingTo.get(), departingFullDate, arrivingFullDate, adult.get(), child.get(), infant.get(), singleOrRound.get())
     
-    
-    #thread2 = threading.Thread(target = bot.travelBrands_execute, args = (departingFrom.get(), arrivingTo.get(), departingDay.get(), departingMonth.get(), arrivingDay.get(), arrivingMonth.get(), adult.get(), child.get(), infant.get(), connections.get()))
-    #thread2.start()
+    tripPro = threading.Thread(
+        target = bot.tripPro_execute, 
+        args = (departingFrom.get(), 
+            arrivingTo.get(), 
+            departingFullDate, 
+            arrivingFullDate, 
+            adult.get(), 
+            child.get(), 
+            infant.get(), 
+            singleOrRound.get()))
 
+    tripPro.start()
+    
     #thread3 = threading.Thread(target = bot.travelBrands_execute, args = (departingFrom.get(), arrivingTo.get(), departingDay.get(), departingMonth.get(), arrivingDay.get(), arrivingMonth.get(), adult.get(), child.get(), infant.get(), connections.get()))
     #thread3.start()
     
