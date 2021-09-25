@@ -126,7 +126,66 @@ def tripPro_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDa
     submitButton = driver.find_element_by_id('searchFlightButton')
     submitButton.click()
     
+def airNet_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, singleOrRound):
+    driver = webdriver.Chrome(PATH)
+    driver.get(credentials.AIRNET['link'])
 
+    agency_name = driver.find_element_by_id("txtUser")
+    agency_name.send_keys(credentials.AIRNET['user'])
+
+    agency_pass = driver.find_element_by_id("txtPassword")
+    agency_pass.send_keys(credentials.AIRNET['pass'])
+    agency_pass.send_keys(Keys.RETURN)
+    
+    time.sleep(5)
+    if int(singleOrRound) ==0:
+        driver.find_element_by_id('PNL1O').click()
+    else:
+        driver.find_element_by_id('PNL1R').click()
+
+        returningOutbound_from = driver.find_element_by_id('txtDepCity2')
+        returningOutbound_from.send_keys(departingFrom)
+        time.sleep(1)
+        returningOutbound_from.send_keys(Keys.ARROW_DOWN)
+
+        returningOutbound_to = driver.find_element_by_id('txtArrCity2')
+        returningOutbound_to.send_keys(arrivingTo)
+        time.sleep(1)
+        returningOutbound_to.send_keys(Keys.ARROW_DOWN)
+
+        arrivalDate = driver.find_element_by_id('txtDate2')
+        arrivalDate.send_keys(arrivingFullDate.strftime('%d-%b-%Y')) #MMDDYYYY
+
+    
+    outbound_from = driver.find_element_by_id('txtDepCity1')
+    outbound_from.send_keys(departingFrom)
+    time.sleep(1)
+    outbound_from.send_keys(Keys.ARROW_DOWN)
+
+
+    outbound_to = driver.find_element_by_id('txtArrCity1')
+    outbound_to.send_keys(arrivingTo)
+    time.sleep(1)
+    outbound_to.send_keys(Keys.ARROW_DOWN)
+
+
+    departureDate = driver.find_element_by_id('txtDate1')
+    departureDate.send_keys(departingFullDate.strftime('%d-%b-%Y')) #MMDDYYYY
+
+    #PASSENGERS
+    totalAdults = driver.find_element_by_id("ddlPaxADT")
+    totalAdults.send_keys(int(adult))
+
+    if(int(child) >=1):
+        totalChildren = driver.find_element_by_id("ddlPaxCHD")
+        totalChildren.send_keys(int(child))
+        
+    if(int(infant) >=1):
+        totalInfants = driver.find_element_by_id("ddlPaxINF")
+        totalInfants.send_keys(int(infant))  
+
+    submitButton = driver.find_element_by_id('btnSearchP')
+    submitButton.click()
     
 def royalScenic_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, singleOrRound, threeDays):
     driver = webdriver.Chrome(PATH)

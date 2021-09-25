@@ -19,19 +19,19 @@ def search (threeDays = False):
     else:
         arrivingFullDate = ''
     
-    '''
+
     travelBrands = threading.Thread(
-        target = bot.travelBrands_execute, 
-        args = (departingFrom.get(), 
-        arrivingTo.get(), 
-        departingFullDate,
-        arrivingFullDate,
-        adult.get(), 
-        child.get(), 
-        infant.get(), 
-        connections.get(),
-        int(singleOrRound.get()),
-        threeDays
+                target = bot.travelBrands_execute, 
+                args = (departingFrom.get(), 
+                arrivingTo.get(), 
+                departingFullDate,
+                arrivingFullDate,
+                adult.get(), 
+                child.get(), 
+                infant.get(), 
+                connections.get(),
+                int(singleOrRound.get()),
+                threeDays
         ))
     travelBrands.start()
     
@@ -50,10 +50,8 @@ def search (threeDays = False):
                 threeDays))
 
     royalScenic.start()
+
     '''
-    
-    #departingFrom.get(), arrivingTo.get(), departingFullDate, arrivingFullDate, adult.get(), child.get(), infant.get(), singleOrRound.get())
-    
     tripPro = threading.Thread(
         target = bot.tripPro_execute, 
         args = (departingFrom.get(), 
@@ -66,9 +64,20 @@ def search (threeDays = False):
             singleOrRound.get()))
 
     tripPro.start()
-    
-    #thread3 = threading.Thread(target = bot.travelBrands_execute, args = (departingFrom.get(), arrivingTo.get(), departingDay.get(), departingMonth.get(), arrivingDay.get(), arrivingMonth.get(), adult.get(), child.get(), infant.get(), connections.get()))
-    #thread3.start()
+    '''
+
+    airNet = threading.Thread(
+                target = bot.airNet_execute, 
+                args = (departingFrom.get(), 
+                    arrivingTo.get(), 
+                    departingFullDate, 
+                    arrivingFullDate, 
+                    adult.get(), 
+                    child.get(), 
+                    infant.get(), 
+                    singleOrRound.get()))
+
+    airNet.start()
     
 def search3Days():
     search(threeDays = True)
