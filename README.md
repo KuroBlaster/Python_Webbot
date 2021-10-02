@@ -2,7 +2,6 @@
 Selenium web bot to automate Flight Searching
 
 ## Imports
-    pip install tkinter
     pip install selenium
     pip install pyinstaller
     
