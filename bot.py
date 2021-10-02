@@ -9,7 +9,10 @@ PATH = "C:\Program Files (x86)\chromedriver.exe"
 
 def travelBrands_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, connections, singleOrRound, threeDays):
     driver = webdriver.Chrome(PATH)
+    #Mazimize current window
+    driver.maximize_window()
     driver.get(credentials.TRAVELBRANDS['link'])
+
     #Close a tab: driver.close()
     #close the browseer: driver.quit()
     #Get the webpage title: driver.title
@@ -128,8 +131,9 @@ def tripPro_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDa
     
 def airNet_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, singleOrRound):
     driver = webdriver.Chrome(PATH)
+    #Mazimize current window
+    driver.maximize_window()
     driver.get(credentials.AIRNET['link'])
-
     agency_name = driver.find_element_by_id("txtUser")
     agency_name.send_keys(credentials.AIRNET['user'])
 
@@ -194,8 +198,10 @@ def airNet_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDat
     
 def royalScenic_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, singleOrRound, threeDays):
     driver = webdriver.Chrome(PATH)
+    #Mazimize current window
+    driver.maximize_window()
     driver.get(credentials.ROYALSCENIC['link'])
-
+    
     agency_name = driver.find_element_by_id("username")
     agency_name.send_keys(credentials.ROYALSCENIC['user'])
 
