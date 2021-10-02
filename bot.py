@@ -144,6 +144,11 @@ def airNet_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDat
     time.sleep(4)
     if int(singleOrRound) ==0:
         driver.find_element_by_id('PNL1O').click()
+    
+        departureDate = driver.find_element_by_id('txtDate1')
+        driver.execute_script('document.getElementById("txtDate1").removeAttribute("readonly")')
+        departureDate.clear()
+        departureDate.send_keys(departingFullDate.strftime('%d-%b-%Y')) #MMDDYYYY
     else:
         driver.find_element_by_id('PNL1R').click()
 
@@ -156,6 +161,11 @@ def airNet_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDat
         returningOutbound_to.send_keys(arrivingTo)
         time.sleep(1)
         returningOutbound_to.send_keys(Keys.ARROW_DOWN)
+
+        departureDate = driver.find_element_by_id('txtDate1')
+        driver.execute_script('document.getElementById("txtDate1").removeAttribute("readonly")')
+        departureDate.clear()
+        departureDate.send_keys(departingFullDate.strftime('%d-%b-%Y')) #MMDDYYYY
 
         arrivalDate = driver.find_element_by_id('txtDate2')
         driver.execute_script('document.getElementById("txtDate2").removeAttribute("readonly")')
@@ -175,10 +185,6 @@ def airNet_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDat
     outbound_to.send_keys(Keys.ARROW_DOWN)
 
 
-    departureDate = driver.find_element_by_id('txtDate1')
-    driver.execute_script('document.getElementById("txtDate1").removeAttribute("readonly")')
-    departureDate.clear()
-    departureDate.send_keys(departingFullDate.strftime('%d-%b-%Y')) #MMDDYYYY
     
 
     #PASSENGERS
