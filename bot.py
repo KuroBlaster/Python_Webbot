@@ -137,7 +137,7 @@ def airNet_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDat
     agency_pass.send_keys(credentials.AIRNET['pass'])
     agency_pass.send_keys(Keys.RETURN)
     
-    time.sleep(5)
+    time.sleep(4)
     if int(singleOrRound) ==0:
         driver.find_element_by_id('PNL1O').click()
     else:
@@ -154,23 +154,28 @@ def airNet_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDat
         returningOutbound_to.send_keys(Keys.ARROW_DOWN)
 
         arrivalDate = driver.find_element_by_id('txtDate2')
+        driver.execute_script('document.getElementById("txtDate2").removeAttribute("readonly")')
+        arrivalDate.clear()
         arrivalDate.send_keys(arrivingFullDate.strftime('%d-%b-%Y')) #MMDDYYYY
 
     
     outbound_from = driver.find_element_by_id('txtDepCity1')
     outbound_from.send_keys(departingFrom)
-    time.sleep(1)
+    time.sleep(1.5)
     outbound_from.send_keys(Keys.ARROW_DOWN)
 
 
     outbound_to = driver.find_element_by_id('txtArrCity1')
     outbound_to.send_keys(arrivingTo)
-    time.sleep(1)
+    time.sleep(1.5)
     outbound_to.send_keys(Keys.ARROW_DOWN)
 
 
     departureDate = driver.find_element_by_id('txtDate1')
+    driver.execute_script('document.getElementById("txtDate1").removeAttribute("readonly")')
+    departureDate.clear()
     departureDate.send_keys(departingFullDate.strftime('%d-%b-%Y')) #MMDDYYYY
+    
 
     #PASSENGERS
     totalAdults = driver.find_element_by_id("ddlPaxADT")

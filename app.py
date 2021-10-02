@@ -33,7 +33,7 @@ def search (threeDays = False):
                 int(singleOrRound.get()),
                 threeDays
         ))
-    travelBrands.start()
+    #travelBrands.start()
     
     #RoyalScenic
         
@@ -49,7 +49,7 @@ def search (threeDays = False):
                 singleOrRound.get(), 
                 threeDays))
 
-    royalScenic.start()
+    #royalScenic.start()
 
     '''
     tripPro = threading.Thread(
