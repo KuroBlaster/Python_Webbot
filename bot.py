@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 import time
 
 
@@ -266,3 +267,113 @@ def royalScenic_execute(departingFrom, arrivingTo, departingFullDate, arrivingFu
     if threeDays: 
         submit3days = driver.find_element_by_id('flexible-dates-search')
         submit3days.click()
+
+
+def googleFlights_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, connections, singleOrRound, threeDays):
+    driver = webdriver.Chrome(PATH)
+    #Mazimize current window
+    driver.maximize_window()
+    driver.get(credentials.GOOGLEFLIGHTS['link'])
+    
+    if singleOrRound == 0:
+        driver.get('https://www.google.com/travel/flights?tfs=CBwQARoaagwIAhIIL20vMDgwaDISCjIwMjEtMTAtMjNwAYIBCwj___________8BQAFIAZgBAg')
+    
+    
+    
+
+    # Getting to the one Way/Round Way
+    ActionChains(driver).key_down(Keys.SHIFT).send_keys(Keys.TAB).key_up(Keys.SHIFT).perform()
+    
+    time.sleep(0.2)
+    ActionChains(driver).key_down(Keys.SHIFT).send_keys(Keys.TAB).key_up(Keys.SHIFT).perform()
+    time.sleep(0.2)
+    ActionChains(driver).key_down(Keys.SHIFT).send_keys(Keys.TAB).key_up(Keys.SHIFT).perform()
+    
+    ActionChains(driver).send_keys(Keys.ARROW_DOWN).perform()
+    ActionChains(driver).send_keys(Keys.TAB).perform()
+    
+    for i in range(int(adult)):
+        if( i ==0):
+            continue
+        ActionChains(driver).send_keys(Keys.ARROW_UP).perform()
+    
+    ActionChains(driver).send_keys(Keys.TAB).perform()
+
+    for i in range(int(child)):
+        ActionChains(driver).send_keys(Keys.ARROW_UP).perform()
+    
+    ActionChains(driver).send_keys(Keys.TAB).perform()
+    ActionChains(driver).send_keys(Keys.TAB).perform()
+    ActionChains(driver).send_keys(Keys.TAB).perform()
+    ActionChains(driver).send_keys(Keys.ENTER).perform()
+    
+    ActionChains(driver).send_keys(Keys.TAB).perform()
+    ActionChains(driver).send_keys(Keys.TAB).perform()
+
+    ActionChains(driver).send_keys(departingFrom).perform()
+    ActionChains(driver).send_keys(Keys.TAB).perform()
+    ActionChains(driver).send_keys(arrivingTo).perform()
+    ActionChains(driver).send_keys(Keys.TAB).perform()
+    time.sleep(0.5)
+    ActionChains(driver).send_keys(departingFullDate.strftime('%m/%d/%Y')).perform()
+    ActionChains(driver).send_keys(Keys.TAB).perform()
+    
+    if singleOrRound != 0:
+        ActionChains(driver).send_keys(arrivingFullDate.strftime('%m/%d/%Y')).perform()
+        ActionChains(driver).send_keys(Keys.TAB).perform()
+    time.sleep(4.5)
+    
+    ActionChains(driver).key_down(Keys.SHIFT).send_keys(Keys.TAB).key_up(Keys.SHIFT).perform()
+    time.sleep(0.1)
+    ActionChains(driver).key_down(Keys.SHIFT).send_keys(Keys.TAB).key_up(Keys.SHIFT).perform()
+    time.sleep(0.1)
+    ActionChains(driver).key_down(Keys.SHIFT).send_keys(Keys.TAB).key_up(Keys.SHIFT).perform()
+    time.sleep(0.1)
+    ActionChains(driver).key_down(Keys.SHIFT).send_keys(Keys.TAB).key_up(Keys.SHIFT).perform()
+    time.sleep(0.1)
+    ActionChains(driver).key_down(Keys.SHIFT).send_keys(Keys.TAB).key_up(Keys.SHIFT).perform()
+    time.sleep(0.1)
+    ActionChains(driver).key_down(Keys.SHIFT).send_keys(Keys.TAB).key_up(Keys.SHIFT).perform()
+    time.sleep(0.1)
+    ActionChains(driver).key_down(Keys.SHIFT).send_keys(Keys.TAB).key_up(Keys.SHIFT).perform()
+    time.sleep(0.1)
+    ActionChains(driver).key_down(Keys.SHIFT).send_keys(Keys.TAB).key_up(Keys.SHIFT).perform()
+    time.sleep(0.1)
+    ActionChains(driver).key_down(Keys.SHIFT).send_keys(Keys.TAB).key_up(Keys.SHIFT).perform()
+    time.sleep(0.1)
+    ActionChains(driver).key_down(Keys.SHIFT).send_keys(Keys.TAB).key_up(Keys.SHIFT).perform()
+    time.sleep(0.1)
+    ActionChains(driver).key_down(Keys.SHIFT).send_keys(Keys.TAB).key_up(Keys.SHIFT).perform()
+    time.sleep(0.1)
+    ActionChains(driver).key_down(Keys.SHIFT).send_keys(Keys.TAB).key_up(Keys.SHIFT).perform()
+    time.sleep(0.1)
+    ActionChains(driver).send_keys(Keys.ENTER).perform()
+    time.sleep(0.2)
+
+    if(connections == 'Direct flights'):
+        ActionChains(driver).send_keys(Keys.ARROW_DOWN).perform()
+        time.sleep(0.3)
+        ActionChains(driver).send_keys(Keys.TAB).perform()
+        time.sleep(0.3)
+        ActionChains(driver).send_keys(Keys.ENTER).perform()
+    elif(connections == '1 Maximum'):
+        ActionChains(driver).send_keys(Keys.ARROW_DOWN).perform()
+        time.sleep(0.3)
+        ActionChains(driver).send_keys(Keys.ARROW_DOWN).perform()
+        time.sleep(0.3)
+        ActionChains(driver).send_keys(Keys.TAB).perform()
+        time.sleep(0.3)
+        ActionChains(driver).send_keys(Keys.ENTER).perform()
+    elif(connections == '2 Maximum'):
+        ActionChains(driver).send_keys(Keys.ARROW_DOWN).perform()
+        time.sleep(0.3)
+        ActionChains(driver).send_keys(Keys.ARROW_DOWN).perform()
+        time.sleep(0.3)
+        ActionChains(driver).send_keys(Keys.ARROW_DOWN).perform()
+        time.sleep(0.3)
+        ActionChains(driver).send_keys(Keys.TAB).perform()
+        time.sleep(0.3)
+        ActionChains(driver).send_keys(Keys.ENTER).perform()
+
+        
+    

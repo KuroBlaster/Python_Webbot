@@ -19,6 +19,20 @@ def search (threeDays = False):
     else:
         arrivingFullDate = ''
     
+    googleFlights = threading.Thread(
+                target = bot.googleFlights_execute, 
+                args = (departingFrom.get(), 
+                arrivingTo.get(), 
+                departingFullDate,
+                arrivingFullDate,
+                adult.get(), 
+                child.get(), 
+                infant.get(), 
+                connections.get(),
+                int(singleOrRound.get()),
+                threeDays
+        ))
+    googleFlights.start()
 
     travelBrands = threading.Thread(
                 target = bot.travelBrands_execute, 
