@@ -61,7 +61,8 @@ def search (threeDays = False):
                 child.get(), 
                 infant.get(), 
                 singleOrRound.get(), 
-                threeDays))
+                threeDays,
+                connections.get()))
 
     royalScenic.start()
 

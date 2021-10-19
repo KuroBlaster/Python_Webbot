@@ -203,7 +203,7 @@ def airNet_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDat
     submitButton = driver.find_element_by_id('btnSearchP')
     submitButton.click()
     
-def royalScenic_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, singleOrRound, threeDays):
+def royalScenic_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, singleOrRound, threeDays, connections):
     driver = webdriver.Chrome(PATH)
     #Mazimize current window
     driver.maximize_window()
@@ -267,6 +267,14 @@ def royalScenic_execute(departingFrom, arrivingTo, departingFullDate, arrivingFu
     if threeDays: 
         submit3days = driver.find_element_by_id('flexible-dates-search')
         submit3days.click()
+
+    if connections == "Direct flights":
+        driver.find_element_by_xpath ("//*[contains(text(),'Non Stop')]").click()
+    elif connections == "1 Maximum":
+        driver.find_element_by_xpath ("//*[contains(text(),'1 Stop')]").click()
+    
+
+
 
 
 def googleFlights_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, connections, singleOrRound, threeDays):
