@@ -130,7 +130,7 @@ def tripPro_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDa
     submitButton = driver.find_element_by_id('searchFlightButton')
     submitButton.click()
     
-def airNet_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, singleOrRound):
+def airNet_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, singleOrRound, threeDays, connections):
     driver = webdriver.Chrome(PATH)
     #Mazimize current window
     driver.maximize_window()
@@ -142,6 +142,11 @@ def airNet_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDat
     agency_pass.send_keys(credentials.AIRNET['pass'])
     agency_pass.send_keys(Keys.RETURN)
     
+    
+    if threeDays:
+        driver.find_element_by_id('rdbCalendarSearch').click()
+    if connections == 'Direct flights':
+        driver.find_element_by_id('chbIsNonStopFlight').click()
     time.sleep(4)
     if int(singleOrRound) ==0:
         driver.find_element_by_id('PNL1O').click()
@@ -200,6 +205,7 @@ def airNet_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDat
         totalInfants = driver.find_element_by_id("ddlPaxINF")
         totalInfants.send_keys(int(infant))  
 
+    
     submitButton = driver.find_element_by_id('btnSearchP')
     submitButton.click()
     
@@ -208,9 +214,13 @@ def royalScenic_execute(departingFrom, arrivingTo, departingFullDate, arrivingFu
     #Mazimize current window
     driver.maximize_window()
     driver.get(credentials.ROYALSCENIC['link'])
-    
+    time.sleep(1)
+
     agency_name = driver.find_element_by_id("username")
     agency_name.send_keys(credentials.ROYALSCENIC['user'])
+
+    agency_user = driver.find_element_by_id("agentusername")
+    agency_user.send_keys(credentials.ROYALSCENIC['agent'])
 
     agency_pass = driver.find_element_by_id("password")
     agency_pass.send_keys(credentials.ROYALSCENIC['pass'])
@@ -218,30 +228,45 @@ def royalScenic_execute(departingFrom, arrivingTo, departingFullDate, arrivingFu
     agency_pass.send_keys(Keys.RETURN)
 
     #Single Way
+    time.sleep(1)
     if(int(singleOrRound) == 0):
-        driver.find_element_by_id('rbFlightOneWay').click()
+        driver.find_elements_by_name('TripType')[1].click()
     else: #Round Trip
-        driver.find_element_by_id('rbFlightReturn').click()
-        arrivalDate = driver.find_element_by_id('departure-date-2')
-        arrivalDate.send_keys(arrivingFullDate.strftime('%m/%d/%Y')) #MMDDYYYY
+        arrivalDate = driver.find_element_by_id('arrival-date')
+        driver.execute_script('document.getElementById("arrival-date").removeAttribute("readonly")')
+        arrivalDate.send_keys(arrivingFullDate.strftime('%b %d-%Y')) #MMDDYYYY
 
-    outbound_from = driver.find_element_by_id('departure-airport-1')
+    outbound_from = driver.find_element_by_id('Itineraries_0__DepartureAirport')
     outbound_from.send_keys(departingFrom)
-    time.sleep(0.5)
-    outbound_from.send_keys(Keys.ARROW_DOWN)
-    
-    outbound_to = driver.find_element_by_id('arrival-airport-1')
-    outbound_to.send_keys(arrivingTo)
-    time.sleep(0.5)
-    outbound_to.send_keys(Keys.ARROW_DOWN)
+    time.sleep(1)
 
-    departureDate = driver.find_element_by_id('departure-date-1')
-    departureDate.send_keys(departingFullDate.strftime('%m/%d/%Y')) #MMDDYYYY
+    
+    outbound_to = driver.find_element_by_id('Itineraries_0__ArrivalAirport')
+    outbound_to.send_keys(arrivingTo)
+    time.sleep(1)
+
+
+    
+    departureDate = driver.find_element_by_id('departure-date')
+    driver.execute_script('document.getElementById("departure-date").removeAttribute("readonly")')
+    departureDate.send_keys(departingFullDate.strftime('%b %d-%Y')) #MMDDYYYY
 
     #PASSENGERS
-    totalAdults = driver.find_element_by_xpath("//select[@id='noofAdult']/option[text()='" + adult + "']")
-    totalAdults.click()
+    driver.execute_script("document.getElementById('Adults').setAttribute('value'," + adult + " )")
+    driver.execute_script("document.getElementById('adult-count').innerHTML = " + adult + ";")
 
+    submitButton = driver.find_element_by_name('submit')
+    submitButton.click()
+
+    if connections == "Direct flights":
+        driver.find_element_by_id('chbNonStop').click()
+        driver.find_element_by_name('submit').click()                
+
+    if threeDays:
+        driver.find_element_by_id('chbFlexiSearch').click()
+        driver.find_element_by_name('submit').click()
+
+    '''
     if(int(child) >=1):
         totalChildren = driver.find_element_by_xpath("//select[@id='noOfChildren']/option[text()='" + child + "']")
         totalChildren.click()
@@ -260,8 +285,7 @@ def royalScenic_execute(departingFrom, arrivingTo, departingFullDate, arrivingFu
             infantId = "InfantAge" + str((childCount +1))
             driver.find_element_by_xpath("//select[@id='" + infantId + "']/option[text()='" + '< 2 (lap)' + "']").click()
 
-    submitButton = driver.find_element_by_id('btnSearchNow')
-    submitButton.click()
+    
     
     #search 3 days
     if threeDays: 
@@ -272,10 +296,7 @@ def royalScenic_execute(departingFrom, arrivingTo, departingFullDate, arrivingFu
         driver.find_element_by_xpath ("//*[contains(text(),'Non Stop')]").click()
     elif connections == "1 Maximum":
         driver.find_element_by_xpath ("//*[contains(text(),'1 Stop')]").click()
-    
-
-
-
+    '''
 
 def googleFlights_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, connections, singleOrRound, threeDays):
     driver = webdriver.Chrome(PATH)
@@ -312,6 +333,9 @@ def googleFlights_execute(departingFrom, arrivingTo, departingFullDate, arriving
     
     ActionChains(driver).send_keys(Keys.TAB).perform()
     ActionChains(driver).send_keys(Keys.TAB).perform()
+    for i in range(int(infant)):
+        ActionChains(driver).send_keys(Keys.ARROW_UP).perform()
+    
     ActionChains(driver).send_keys(Keys.TAB).perform()
     ActionChains(driver).send_keys(Keys.ENTER).perform()
     
@@ -356,7 +380,7 @@ def googleFlights_execute(departingFrom, arrivingTo, departingFullDate, arriving
     ActionChains(driver).key_down(Keys.SHIFT).send_keys(Keys.TAB).key_up(Keys.SHIFT).perform()
     time.sleep(0.1)
     ActionChains(driver).send_keys(Keys.ENTER).perform()
-    time.sleep(0.2)
+    time.sleep(0.5)
 
     if(connections == 'Direct flights'):
         ActionChains(driver).send_keys(Keys.ARROW_DOWN).perform()
@@ -383,5 +407,7 @@ def googleFlights_execute(departingFrom, arrivingTo, departingFullDate, arriving
         time.sleep(0.3)
         ActionChains(driver).send_keys(Keys.ENTER).perform()
 
+    if threeDays:
+        driver.find_element_by_xpath ("//*[contains(text(),'Date grid')]").click()
         
     

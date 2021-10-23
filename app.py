@@ -32,7 +32,7 @@ def search (threeDays = False):
                 int(singleOrRound.get()),
                 threeDays
         ))
-    googleFlights.start()
+    #googleFlights.start()
 
     travelBrands = threading.Thread(
                 target = bot.travelBrands_execute, 
@@ -47,7 +47,7 @@ def search (threeDays = False):
                 int(singleOrRound.get()),
                 threeDays
         ))
-    travelBrands.start()
+    #travelBrands.start()
     
     #RoyalScenic
         
@@ -66,7 +66,7 @@ def search (threeDays = False):
 
     royalScenic.start()
 
-    '''
+    
     tripPro = threading.Thread(
         target = bot.tripPro_execute, 
         args = (departingFrom.get(), 
@@ -78,8 +78,8 @@ def search (threeDays = False):
             infant.get(), 
             singleOrRound.get()))
 
-    tripPro.start()
-    '''
+    #tripPro.start()
+    
 
     airNet = threading.Thread(
                 target = bot.airNet_execute, 
@@ -90,9 +90,11 @@ def search (threeDays = False):
                     adult.get(), 
                     child.get(), 
                     infant.get(), 
-                    singleOrRound.get()))
+                    singleOrRound.get(), 
+                    threeDays,
+                    connections.get()))
 
-    airNet.start()
+    #airNet.start()
     
 def search3Days():
     search(threeDays = True)
