@@ -17,7 +17,14 @@ Selenium web bot to automate Flight Searching
 ## Executable Script Generation
 pyinstaller.exe --onefile --windowed app.py 
 
-## Renable Console
+## Disable Console
+Go to C:\ProgramData\Anaconda3\Lib\site-packages\selenium\webdriver\common\service.py
+and add from win32process import CREATE_NO_WINDOW at line 26
+and add creationflags=CREATE_NO_WINDOW at line 76
+
+## Enable Console
 Go to C:\ProgramData\Anaconda3\Lib\site-packages\selenium\webdriver\common\service.py
 and remove from win32process import CREATE_NO_WINDOW
 and remove creationflags=CREATE_NO_WINDOW
+
+## Remember to Update ChromeDriver for the chrome version you are using
