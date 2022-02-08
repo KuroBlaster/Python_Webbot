@@ -9,7 +9,10 @@ PATH = "C:\Program Files (x86)\chromedriver.exe"
 
 
 def travelBrands_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, connections, singleOrRound, threeDays):
-    driver = webdriver.Chrome(PATH)
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_experimental_option("detach", True)
+    driver = webdriver.Chrome(executable_path=PATH, options=chrome_options)
+    
     #Mazimize current window
     driver.maximize_window()
     driver.get(credentials.TRAVELBRANDS['link'])
@@ -79,13 +82,16 @@ def travelBrands_execute(departingFrom, arrivingTo, departingFullDate, arrivingF
     flight_connection.click()
 
     if threeDays:
-        driver.find_element_by_id('PlusMoins3Jours1').click()
+        #driver.find_element_by_id('PlusMoins3Jours1').click()
+        driver.execute_script("Search_3Jours()")
     else:
         driver.find_element_by_xpath('//*[(@id = "search-other")]//div//input').click()
         
 def tripPro_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, singleOrRound):
     
-    driver = webdriver.Chrome(PATH)
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_experimental_option("detach", True)
+    driver = webdriver.Chrome(executable_path=PATH, options=chrome_options)
     driver.get(credentials.TRIPPRO['link'])
 
     agency_name = driver.find_element_by_id("username")
@@ -131,7 +137,9 @@ def tripPro_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDa
     submitButton.click()
     
 def airNet_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, singleOrRound, threeDays, connections):
-    driver = webdriver.Chrome(PATH)
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_experimental_option("detach", True)
+    driver = webdriver.Chrome(executable_path=PATH, options=chrome_options)
     #Mazimize current window
     driver.maximize_window()
     driver.get(credentials.AIRNET['link'])
@@ -210,7 +218,9 @@ def airNet_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDat
     submitButton.click()
     
 def royalScenic_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, singleOrRound, threeDays, connections):
-    driver = webdriver.Chrome(PATH)
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_experimental_option("detach", True)
+    driver = webdriver.Chrome(executable_path=PATH, options=chrome_options)
     #Mazimize current window
     driver.maximize_window()
     driver.get(credentials.ROYALSCENIC['link'])
@@ -299,7 +309,9 @@ def royalScenic_execute(departingFrom, arrivingTo, departingFullDate, arrivingFu
     '''
 
 def googleFlights_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, connections, singleOrRound, threeDays):
-    driver = webdriver.Chrome(PATH)
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_experimental_option("detach", True)
+    driver = webdriver.Chrome(executable_path=PATH, options=chrome_options)
     #Mazimize current window
     driver.maximize_window()
     driver.get(credentials.GOOGLEFLIGHTS['link'])

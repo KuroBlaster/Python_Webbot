@@ -19,8 +19,10 @@ pyinstaller.exe --onefile --windowed app.py
 
 ## Disable Console
 Go to C:\ProgramData\Anaconda3\Lib\site-packages\selenium\webdriver\common\service.py
+OR
+C:\Python38\Lib\site-packages\selenium\webdriver\common\service.py
 and add from win32process import CREATE_NO_WINDOW at line 26
-and add creationflags=CREATE_NO_WINDOW at line 76
+and add creationflags=CREATE_NO_WINDOW at line 76 OR creationflags=134217728 (a hacky way)
 
 ## Enable Console
 Go to C:\ProgramData\Anaconda3\Lib\site-packages\selenium\webdriver\common\service.py
