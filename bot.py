@@ -5,7 +5,7 @@ import time
 
 
 import config as credentials
-PATH = "C:\Program Files (x86)\chromedriver.exe"
+PATH = "chromedriver.exe"
 
 
 def travelBrands_execute(departingFrom, arrivingTo, departingFullDate, arrivingFullDate, adult, child, infant, connections, singleOrRound, threeDays):
